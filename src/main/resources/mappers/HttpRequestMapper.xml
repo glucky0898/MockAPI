@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atf.mappers.HttpRequestDAO">
+
+  <resultMap id="HttpRequestEntityResultMap" type="HttpRequestEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="query_parameters" jdbcType="VARCHAR" property="queryParameters" />
+    <result column="body" jdbcType="VARCHAR" property="body" />
+    <result column="body_type" jdbcType="VARCHAR" property="type" />
+    <result column="cookies" jdbcType="VARCHAR" property="cookies" />
+    <result column="headers" jdbcType="VARCHAR" property="headers" />
+    <result column="keep_alive" jdbcType="BIT" property="keepAlive" />
+    <result column="secure" jdbcType="BIT" property="secure" />
+  </resultMap>
+
+  <sql id="columns">
+    id, path, method, query_parameters, body_type, body, cookies, headers, keep_alive, secure
+  </sql>
+
+  <sql id="table_name">
+    mock_request
+  </sql>
+
+  <sql id="HttpRequestEntity_update_condition_selective">
+    <if test="id != null and id != INT_SPECIAL_NULL">id = #{id}</if>
+    <if test="path != null">,path = #{path}</if>
+    <if test="method != null">,method = #{method}</if>
+    <if test="queryParameters != null">,query_parameters = #{queryParameters,jdbcType=VARCHAR}</if>
+    <if test="type != null">,body_type = #{type,jdbcType=VARCHAR}</if>
+    <if test="body != null">,body = #{body,jdbcType=VARCHAR}</if>
+    <if test="cookies != null">,cookies = #{cookies,jdbcType=VARCHAR}</if>
+    <if test="headers != null">,headers = #{headers,jdbcType=VARCHAR}</if>
+    <if test="keepAlive != null">,keep_alive = #{keepAlive,jdbcType=BIT}</if>
+    <if test="secure != null">,secure = #{secure,jdbcType=BIT}</if>
+  </sql>
+
+  <!-- 更新条件列-->
+  <sql id="HttpRequestEntity_update_condition">
+        id = #{id}
+        ,path = #{path}
+        ,method = #{method}
+        ,query_parameters = #{queryParameters,jdbcType=VARCHAR}
+        ,body_type = #{type,jdbcType=VARCHAR}
+        ,body = #{body,jdbcType=VARCHAR}
+        ,cookies = #{cookies,jdbcType=VARCHAR}
+        ,headers = #{headers,jdbcType=VARCHAR}
+        ,keep_alive = #{keepAlive,jdbcType=BIT}
+        ,secure = #{secure,jdbcType=BIT}
+	</sql>
+
+  <!--根据id主键查找-->
+  <select id="selectByPrimaryKeyId" parameterType="Integer" resultMap="HttpRequestEntityResultMap">
+    select 
+    <include refid="columns" />
+    from <include refid="table_name" />
+    where id = #{id}
+  </select>
+
+  <!--根据实体的id属性查找-->
+  <select id="selectByPrimaryKey" parameterType="HttpRequestEntity" resultMap="HttpRequestEntityResultMap">
+    select
+    <include refid="columns" />
+    from <include refid="table_name" />
+    where id = #{id}
+  </select>
+
+  <!--查找全部记录-->
+  <select id="selectAll" parameterType="HttpRequestEntity" resultMap="HttpRequestEntityResultMap">
+    select
+    <include refid="columns" />
+    from <include refid="table_name" />
+  </select>
+
+  <!--根据id逐渐删除-->
+  <delete id="deleteByPrimaryKey" parameterType="HttpRequestEntity">
+    delete from <include refid="table_name" />
+    where id = #{id}
+  </delete>
+
+  <delete id="deleteByPrimaryKeyId" parameterType="Integer">
+    delete from <include refid="table_name" />
+    where id = #{id}
+  </delete>
+
+  <!--动态插入数据-->
+  <insert id="insertSelective" parameterType="HttpRequestEntity" useGeneratedKeys="true" keyProperty="id">
+    insert into <include refid="table_name" />
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">id,</if>
+      <if test="path != null">path,</if>
+      <if test="method != null">method,</if>
+      <if test="queryParameters != null">query_parameters,</if>
+      <if test="body != null">body,</if>
+      <if test="type != null">body_type,</if>
+      <if test="cookies != null">cookies,</if>
+      <if test="headers != null">headers,</if>
+      <if test="keepAlive != null">keep_alive,</if>
+      <if test="secure != null">secure,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="path != null">#{path},</if>
+      <if test="method != null">#{method},</if>
+      <if test="queryParameters != null">#{queryParameters},</if>
+      <if test="body != null">#{body},</if>
+      <if test="type != null">#{type},</if>
+      <if test="cookies != null">#{cookies},</if>
+      <if test="headers != null">#{headers},</if>
+      <if test="keepAlive != null">#{keepAlive},</if>
+      <if test="secure != null">#{secure},</if>
+    </trim>
+  </insert>
+
+  <!--插入数据-->
+  <insert id="insert" parameterType="HttpRequestEntity" useGeneratedKeys="true" keyProperty="id">
+    insert into <include refid="table_name"/> ( <include refid="columns"/> )
+    values (
+    #{id},#{path},#{method},#{queryParameters},#{type},#{body},#{cookies},#{headers},#{keepAlive},#{secure}
+    )
+  </insert>
+
+  <!--更新数据-->
+  <update id="updateByPrimaryKeySelective" parameterType="HttpRequestEntity">
+    update <include refid="table_name" />
+    set
+    <include refid="HttpRequestEntity_update_condition_selective" />
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="HttpRequestEntity">
+    update <include refid="table_name" />
+    set
+    <include refid="HttpRequestEntity_update_condition" />
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

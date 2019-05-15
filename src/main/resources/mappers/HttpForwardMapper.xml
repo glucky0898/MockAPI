@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.atf.mappers.HttpForwardDAO">
+
+    <resultMap id="HttpForwardEntityMap" type="HttpForwardEntity">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="host" jdbcType="VARCHAR" property="host" />
+        <result column="port" jdbcType="BIGINT" property="port" />
+        <result column="scheme" jdbcType="VARCHAR" property="scheme" />
+    </resultMap>
+
+    <sql id="table_name">
+        mock_forward
+    </sql>
+    <sql id="columns">
+        id, host, port, scheme
+    </sql>
+
+    <!--查找全部记录-->
+    <select id="selectAll"  resultMap="HttpForwardEntityMap">
+        select
+        <include refid="columns" />
+        from <include refid="table_name" />
+    </select>
+
+    <select id="selectByPrimaryKeyId" parameterType="Integer" resultMap="HttpForwardEntityMap">
+        select
+        <include refid="columns" />
+        from <include refid="table_name" />
+        where id = #{id}
+    </select>
+
+    <delete id="deleteByPrimaryKeyId" parameterType="Integer">
+        delete from <include refid="table_name" />
+        where id = #{id}
+    </delete>
+
+    <insert id="insertSelective" parameterType="HttpForwardEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table_name" />
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="host != null">
+                host,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="scheme != null">
+                scheme,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="host != null">
+                #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=BIGINT},
+            </if>
+            <if test="scheme != null">
+                #{scheme,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="HttpForwardEntity">
+        update <include refid="table_name"/>
+        <set>
+            <if test="id != null and id != INT_SPECIAL_NULL">id = #{id}</if>
+            <if test="host != null">
+                ,host = #{host,jdbcType=VARCHAR}
+            </if>
+            <if test="port != null">
+                ,port = #{port,jdbcType=BIGINT}
+            </if>
+            <if test="scheme != null">
+                ,scheme = #{scheme,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+  	@description : user Mapper文件
+  				      表名*	user		
+				      署主*	atf2.0a			
+				      说明*	user			
+	                  主键* 	
+	                  索引* 
+ 	@author       杨梁
+  	@version      1.0  
+ 	@date         2018-05-21
+--> 
+<mapper namespace="com.atf.mappers.UserDao">
+	
+	<!-- Entity和数据库表列映射 -->
+	<resultMap id="UserEntityResultMap" type="UserEntity">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="reallyname" property="reallyname" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="role" property="role" jdbcType="SMALLINT" />
+        <result column="rolecn" property="roleCn" jdbcType="VARCHAR" />
+        <result column="dept" property="dept" jdbcType="VARCHAR" />
+        <result column="tel" property="tel" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="verify_info" property="verifyInfo" jdbcType="CHAR" />
+        <result column="last_login_date" property="lastLoginDate" jdbcType="TIMESTAMP" />
+        <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="modifier_id" property="modifierId" jdbcType="INTEGER" />
+        <result column="modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+        <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+	</resultMap>
+    <!-- Entity和数据库表列映射 -->
+    <resultMap id="UsernameResultMap" type="UserEntity">
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    </resultMap>
+
+	<!--表名-->
+	<sql id="table_name">
+		user
+	</sql>
+	
+	<!-- 数据库列 -->
+	<sql id="columns">
+        id,
+        username,
+        password,
+        reallyname,
+        email,
+        role,
+        rolecn,
+        dept,
+        tel,
+        phone,
+        verify_info,
+        last_login_date,
+        last_login_ip,
+        status,
+        create_time,
+        modifier_id,
+        modified_time,
+        creator_id
+	</sql>
+    
+    <!-- 查询条件列 -->
+	<sql id="UserEntity_conditon">
+        <if test="id != null"> and id = #{id}</if>
+        <if test="username != null and username != '' "> and username = #{username}</if>
+        <if test="password != null and password != '' "> and password = #{password}</if>
+        <if test="reallyname != null and reallyname != '' "> and reallyname = #{reallyname}</if>
+        <if test="email != null and email != '' "> and email = #{email}</if>
+        <if test="role != null"> and role = #{role}</if>
+        <if test="roleCn != null and roleCn != '' "> and rolecn = #{roleCn}</if>
+        <if test="dept != null and dept != '' "> and dept = #{dept}</if>
+        <if test="tel != null and tel != '' "> and tel = #{tel}</if>
+        <if test="phone != null and phone != '' "> and phone = #{phone}</if>
+        <if test="verifyInfo != null and verifyInfo != '' "> and verify_info = #{verifyInfo}</if>
+        <if test="lastLoginDate != null"> and last_login_date = #{lastLoginDate}</if>
+        <if test="lastLoginIp != null and lastLoginIp != '' "> and last_login_ip = #{lastLoginIp}</if>
+        <if test="status != null"> and status = #{status}</if>
+        <if test="createTime != null"> and create_time = #{createTime}</if>
+        <if test="modifierId != null"> and modifier_id = #{modifierId}</if>
+        <if test="modifiedTime != null"> and modified_time = #{modifiedTime}</if>
+        <if test="creatorId != null"> and creator_id = #{creatorId}</if>
+	</sql>
+    
+    <!-- 查询条件列 -->
+	<sql id="UserEntity_conditon_include_null">
+        <if test="id != null and id != INT_SPECIAL_NULL and id != INT_SPECIAL_NOT_NULL"> and id = #{id}</if>
+        <if test="id == INT_SPECIAL_NULL"> and id is NULL</if>   
+        <if test="id == INT_SPECIAL_NOT_NULL"> and id is not NULL</if>
+        <if test="username != null and username != '' and username != STRING_SPECIAL_NULL and username != STRING_SPECIAL_NOT_NULL"> and username = #{username}</if>
+        <if test="username == STRING_SPECIAL_NULL"> and username is NULL</if>
+        <if test="username == STRING_SPECIAL_NOT_NULL"> and username is not NULL</if>
+        <if test="password != null and password != '' and password != STRING_SPECIAL_NULL and password != STRING_SPECIAL_NOT_NULL"> and password = #{password}</if>
+        <if test="password == STRING_SPECIAL_NULL"> and password is NULL</if>
+        <if test="password == STRING_SPECIAL_NOT_NULL"> and password is not NULL</if>
+        <if test="reallyname != null and reallyname != '' and reallyname != STRING_SPECIAL_NULL and reallyname != STRING_SPECIAL_NOT_NULL"> and reallyname = #{reallyname}</if>
+        <if test="reallyname == STRING_SPECIAL_NULL"> and reallyname is NULL</if>
+        <if test="reallyname == STRING_SPECIAL_NOT_NULL"> and reallyname is not NULL</if>
+        <if test="email != null and email != '' and email != STRING_SPECIAL_NULL and email != STRING_SPECIAL_NOT_NULL"> and email = #{email}</if>
+        <if test="email == STRING_SPECIAL_NULL"> and email is NULL</if>
+        <if test="email == STRING_SPECIAL_NOT_NULL"> and email is not NULL</if>
+        <if test="role != null and role != INT_SPECIAL_NULL and role != INT_SPECIAL_NOT_NULL"> and role = #{role}</if>
+        <if test="role == INT_SPECIAL_NULL"> and role is NULL</if>   
+        <if test="role == INT_SPECIAL_NOT_NULL"> and role is not NULL</if>
+        <if test="roleCn != null and roleCn != '' and roleCn != STRING_SPECIAL_NULL and roleCn != STRING_SPECIAL_NOT_NULL"> and rolecn = #{roleCn}</if>
+        <if test="dept != null and dept != '' and dept != STRING_SPECIAL_NULL and dept != STRING_SPECIAL_NOT_NULL"> and dept = #{dept}</if>
+        <if test="dept == STRING_SPECIAL_NULL"> and dept is NULL</if>
+        <if test="dept == STRING_SPECIAL_NOT_NULL"> and dept is not NULL</if>
+        <if test="tel != null and tel != '' and tel != STRING_SPECIAL_NULL and tel != STRING_SPECIAL_NOT_NULL"> and tel = #{tel}</if>
+        <if test="tel == STRING_SPECIAL_NULL"> and tel is NULL</if>
+        <if test="tel == STRING_SPECIAL_NOT_NULL"> and tel is not NULL</if>
+        <if test="phone != null and phone != '' and phone != STRING_SPECIAL_NULL and phone != STRING_SPECIAL_NOT_NULL"> and phone = #{phone}</if>
+        <if test="phone == STRING_SPECIAL_NULL"> and phone is NULL</if>
+        <if test="phone == STRING_SPECIAL_NOT_NULL"> and phone is not NULL</if>
+        <if test="verifyInfo != null and verifyInfo != '' and verifyInfo != STRING_SPECIAL_NULL and verifyInfo != STRING_SPECIAL_NOT_NULL"> and verify_info = #{verifyInfo}</if>
+        <if test="verifyInfo == STRING_SPECIAL_NULL"> and verify_info is NULL</if>
+        <if test="verifyInfo == STRING_SPECIAL_NOT_NULL"> and verify_info is not NULL</if>
+        <if test="lastLoginDate != null"> and last_login_date = #{lastLoginDate}</if>
+        <if test="lastLoginIp != null and lastLoginIp != '' and lastLoginIp != STRING_SPECIAL_NULL and lastLoginIp != STRING_SPECIAL_NOT_NULL"> and last_login_ip = #{lastLoginIp}</if>
+        <if test="lastLoginIp == STRING_SPECIAL_NULL"> and last_login_ip is NULL</if>
+        <if test="lastLoginIp == STRING_SPECIAL_NOT_NULL"> and last_login_ip is not NULL</if>
+        <if test="status != null and status != INT_SPECIAL_NULL and status != INT_SPECIAL_NOT_NULL"> and status = #{status}</if>
+        <if test="status == INT_SPECIAL_NULL"> and status is NULL</if>   
+        <if test="status == INT_SPECIAL_NOT_NULL"> and status is not NULL</if>
+        <if test="createTime != null"> and create_time = #{createTime}</if>
+        <if test="modifierId != null and modifierId != INT_SPECIAL_NULL and modifierId != INT_SPECIAL_NOT_NULL"> and modifier_id = #{modifierId}</if>
+        <if test="modifierId == INT_SPECIAL_NULL"> and modifier_id is NULL</if>   
+        <if test="modifierId == INT_SPECIAL_NOT_NULL"> and modifier_id is not NULL</if>
+        <if test="modifiedTime != null"> and modified_time = #{modifiedTime}</if>
+        <if test="creatorId != null and creatorId != INT_SPECIAL_NULL and creatorId != INT_SPECIAL_NOT_NULL"> and creator_id = #{creatorId}</if>
+        <if test="creatorId == INT_SPECIAL_NULL"> and creator_id is NULL</if>   
+        <if test="creatorId == INT_SPECIAL_NOT_NULL"> and creator_id is not NULL</if>
+	</sql>
+
+    <!-- 查询条件列 -->
+    <sql id="UserEntity_conditon_include_null_fuzzy">
+        <if test="id != null and id != INT_SPECIAL_NULL and id != INT_SPECIAL_NOT_NULL"> and id like '%${id}%'</if>
+        <if test="id == INT_SPECIAL_NULL"> and id is NULL</if>
+        <if test="id == INT_SPECIAL_NOT_NULL"> and id is not NULL</if>
+        <if test="username != null and username != '' and username != STRING_SPECIAL_NULL and username != STRING_SPECIAL_NOT_NULL"> and username like '%${username}%'</if>
+        <if test="username == STRING_SPECIAL_NULL"> and username is NULL</if>
+        <if test="username == STRING_SPECIAL_NOT_NULL"> and username is not NULL</if>
+        <if test="password != null and password != '' and password != STRING_SPECIAL_NULL and password != STRING_SPECIAL_NOT_NULL"> and password like '%${password}%'</if>
+        <if test="password == STRING_SPECIAL_NULL"> and password is NULL</if>
+        <if test="password == STRING_SPECIAL_NOT_NULL"> and password is not NULL</if>
+        <if test="reallyname != null and reallyname != '' and reallyname != STRING_SPECIAL_NULL and reallyname != STRING_SPECIAL_NOT_NULL"> and reallyname like '%${reallyname}%'</if>
+        <if test="reallyname == STRING_SPECIAL_NULL"> and reallyname is NULL</if>
+        <if test="reallyname == STRING_SPECIAL_NOT_NULL"> and reallyname is not NULL</if>
+        <if test="email != null and email != '' and email != STRING_SPECIAL_NULL and email != STRING_SPECIAL_NOT_NULL"> and email like '%${email}%'</if>
+        <if test="email == STRING_SPECIAL_NULL"> and email is NULL</if>
+        <if test="email == STRING_SPECIAL_NOT_NULL"> and email is not NULL</if>
+        <if test="role != null and role != INT_SPECIAL_NULL and role != INT_SPECIAL_NOT_NULL"> and role like '%${role}%'</if>
+        <if test="role == INT_SPECIAL_NULL"> and role is NULL</if>
+        <if test="role == INT_SPECIAL_NOT_NULL"> and role is not NULL</if>
+        <if test="roleCn != null and roleCn != '' and roleCn != STRING_SPECIAL_NULL and roleCn != STRING_SPECIAL_NOT_NULL"> and rolecn like '%${roleCn}%'</if>
+        <if test="dept != null and dept != '' and dept != STRING_SPECIAL_NULL and dept != STRING_SPECIAL_NOT_NULL"> and dept like '%${dept}%'</if>
+        <if test="dept == STRING_SPECIAL_NULL"> and dept is NULL</if>
+        <if test="dept == STRING_SPECIAL_NOT_NULL"> and dept is not NULL</if>
+        <if test="tel != null and tel != '' and tel != STRING_SPECIAL_NULL and tel != STRING_SPECIAL_NOT_NULL"> and tel like '%${tel}%'</if>
+        <if test="tel == STRING_SPECIAL_NULL"> and tel is NULL</if>
+        <if test="tel == STRING_SPECIAL_NOT_NULL"> and tel is not NULL</if>
+        <if test="phone != null and phone != '' and phone != STRING_SPECIAL_NULL and phone != STRING_SPECIAL_NOT_NULL"> and phone like '%${phone}%'</if>
+        <if test="phone == STRING_SPECIAL_NULL"> and phone is NULL</if>
+        <if test="phone == STRING_SPECIAL_NOT_NULL"> and phone is not NULL</if>
+        <if test="verifyInfo != null and verifyInfo != '' and verifyInfo != STRING_SPECIAL_NULL and verifyInfo != STRING_SPECIAL_NOT_NULL"> and verify_info like '%${verifyInfo}%'</if>
+        <if test="verifyInfo == STRING_SPECIAL_NULL"> and verify_info is NULL</if>
+        <if test="verifyInfo == STRING_SPECIAL_NOT_NULL"> and verify_info is not NULL</if>
+        <if test="lastLoginDate != null"> and last_login_date = #{lastLoginDate}</if>
+        <if test="lastLoginIp != null and lastLoginIp != '' and lastLoginIp != STRING_SPECIAL_NULL and lastLoginIp != STRING_SPECIAL_NOT_NULL"> and last_login_ip like '%${lastLoginIp}%'</if>
+        <if test="lastLoginIp == STRING_SPECIAL_NULL"> and last_login_ip is NULL</if>
+        <if test="lastLoginIp == STRING_SPECIAL_NOT_NULL"> and last_login_ip is not NULL</if>
+        <if test="status != null and status != INT_SPECIAL_NULL and status != INT_SPECIAL_NOT_NULL"> and status like '%${status}%'</if>
+        <if test="status == INT_SPECIAL_NULL"> and status is NULL</if>
+        <if test="status == INT_SPECIAL_NOT_NULL"> and status is not NULL</if>
+        <if test="createTime != null"> and create_time = #{createTime}</if>
+        <if test="modifierId != null and modifierId != INT_SPECIAL_NULL and modifierId != INT_SPECIAL_NOT_NULL"> and modifier_id = #{modifierId}</if>
+        <if test="modifierId == INT_SPECIAL_NULL"> and modifier_id is NULL</if>
+        <if test="modifierId == INT_SPECIAL_NOT_NULL"> and modifier_id is not NULL</if>
+        <if test="modifiedTime != null"> and modified_time = #{modifiedTime}</if>
+        <if test="creatorId != null and creatorId != INT_SPECIAL_NULL and creatorId != INT_SPECIAL_NOT_NULL"> and creator_id like '%${creatorId}%'</if>
+        <if test="creatorId == INT_SPECIAL_NULL"> and creator_id is NULL</if>
+        <if test="creatorId == INT_SPECIAL_NOT_NULL"> and creator_id is not NULL</if>
+    </sql>
+
+	<!-- 动态更新条件列-->
+	<sql id="UserEntity_update_conditon_selective">
+        <if test="id != null">id = #{id}</if>
+        <if test="username != null and username != '' ">,username = #{username}</if>
+        <if test="password != null and password != '' ">,password = #{password}</if>
+        <if test="reallyname != null and reallyname != '' ">,reallyname = #{reallyname}</if>
+        <if test="email != null and email != '' ">,email = #{email}</if>
+        <if test="role != null">,role = #{role}</if>
+        <if test="roleCn != null and roleCn != '' ">,rolecn = #{roleCn}</if>
+        <if test="dept != null and dept != '' ">,dept = #{dept}</if>
+        <if test="tel != null and tel != '' ">,tel = #{tel}</if>
+        <if test="phone != null and phone != '' ">,phone = #{phone}</if>
+        <if test="verifyInfo != null and verifyInfo != '' ">,verify_info = #{verifyInfo}</if>
+        <if test="lastLoginDate != null">,last_login_date = #{lastLoginDate}</if>
+        <if test="lastLoginIp != null and lastLoginIp != '' ">,last_login_ip = #{lastLoginIp}</if>
+        <if test="status != null">,status = #{status}</if>
+        <if test="createTime != null">,create_time = #{createTime}</if>
+        <if test="modifierId != null">,modifier_id = #{modifierId}</if>
+        <if test="modifiedTime != null">,modified_time = #{modifiedTime}</if>
+        <if test="creatorId != null">,creator_id = #{creatorId}</if>
+	</sql>
+    
+    <!-- 动态更新条件列-->
+	<sql id="UserEntity_update_conditon_selective_include_null">
+        <if test="id != null and id != INT_SPECIAL_NULL">id = #{id}</if>
+        <if test="id ==  INT_SPECIAL_NULL">id = null</if>
+        <if test="username != null and username != '' and username != STRING_SPECIAL_NULL">,username = #{username}</if>
+        <if test="username ==  STRING_SPECIAL_NULL">,username = null</if>
+        <if test="password != null and password != '' and password != STRING_SPECIAL_NULL">,password = #{password}</if>
+        <if test="password ==  STRING_SPECIAL_NULL">,password = null</if>
+        <if test="reallyname != null and reallyname != '' and reallyname != STRING_SPECIAL_NULL">,reallyname = #{reallyname}</if>
+        <if test="reallyname ==  STRING_SPECIAL_NULL">,reallyname = null</if>
+        <if test="email != null and email != '' and email != STRING_SPECIAL_NULL">,email = #{email}</if>
+        <if test="email ==  STRING_SPECIAL_NULL">,email = null</if>
+        <if test="role != null and role != INT_SPECIAL_NULL">,role = #{role}</if>
+        <if test="role ==  INT_SPECIAL_NULL">,role = null</if>
+        <if test="roleCn != null and roleCn != '' and roleCn != STRING_SPECIAL_NULL">,rolecn = #{roleCn}</if>
+        <if test="role ==  STRING_SPECIAL_NULL">,rolecn = null</if>
+        <if test="dept != null and dept != '' and dept != STRING_SPECIAL_NULL">,dept = #{dept}</if>
+        <if test="dept ==  STRING_SPECIAL_NULL">,dept = null</if>
+        <if test="tel != null and tel != '' and tel != STRING_SPECIAL_NULL">,tel = #{tel}</if>
+        <if test="tel ==  STRING_SPECIAL_NULL">,tel = null</if>
+        <if test="phone != null and phone != '' and phone != STRING_SPECIAL_NULL">,phone = #{phone}</if>
+        <if test="phone ==  STRING_SPECIAL_NULL">,phone = null</if>
+        <if test="verifyInfo != null and verifyInfo != '' and verifyInfo != STRING_SPECIAL_NULL">,verify_info = #{verifyInfo}</if>
+        <if test="verifyInfo ==  STRING_SPECIAL_NULL">,verify_info = null</if>
+        <if test="lastLoginDate != null">,last_login_date = #{lastLoginDate}</if>
+        <if test="lastLoginIp != null and lastLoginIp != '' and lastLoginIp != STRING_SPECIAL_NULL">,last_login_ip = #{lastLoginIp}</if>
+        <if test="lastLoginIp ==  STRING_SPECIAL_NULL">,last_login_ip = null</if>
+        <if test="status != null and status != INT_SPECIAL_NULL">,status = #{status}</if>
+        <if test="status ==  INT_SPECIAL_NULL">,status = null</if>
+        <if test="createTime != null">,create_time = #{createTime}</if>
+        <if test="modifierId != null and modifierId != INT_SPECIAL_NULL">,modifier_id = #{modifierId}</if>
+        <if test="modifierId ==  INT_SPECIAL_NULL">,modifier_id = null</if>
+        <if test="modifiedTime != null">,modified_time = #{modifiedTime}</if>
+        <if test="creatorId != null and creatorId != INT_SPECIAL_NULL">,creator_id = #{creatorId}</if>
+        <if test="creatorId ==  INT_SPECIAL_NULL">,creator_id = null</if>
+	</sql>
+    
+    <!-- 更新条件列-->
+	<sql id="UserEntity_update_conditon">
+        id = #{id}
+        ,username = #{username}
+        ,password = #{password}
+        ,reallyname = #{reallyname}
+        ,email = #{email}
+        ,role = #{role}
+        ,rolecn = #{roleCn}
+        ,dept = #{dept}
+        ,tel = #{tel}
+        ,phone = #{phone}
+        ,verify_info = #{verifyInfo}
+        ,last_login_date = #{lastLoginDate}
+        ,last_login_ip = #{lastLoginIp}
+        ,status = #{status}
+        ,create_time = #{createTime}
+        ,modifier_id = #{modifierId}
+        ,modified_time = #{modifiedTime}
+        ,creator_id = #{creatorId}
+	</sql>
+
+
+	<!-- 默认排序规则 -->
+	<sql id="UserEntity_default_order">
+		order by id
+	</sql>
+
+    <sql id="UserEntity_username_order">
+        order by username ASC
+    </sql>
+
+
+    <select id="selectAllUsername" parameterType="UserEntity" resultMap="UsernameResultMap">
+        select id,username
+        from <include refid="table_name" />
+        <include refid="UserEntity_username_order" />
+    </select>
+    
+    <!-- 根据主键查找-->
+	<select id="selectByPrimaryKey" parameterType="UserEntity" resultMap="UserEntityResultMap">
+		select <include refid="columns" />
+		from <include refid="table_name" /> 
+        where id = #{id} 
+	</select>
+
+    <select id="selectByAccount" parameterType="java.lang.String" resultMap="UserEntityResultMap">
+        select
+        <include refid="columns" />
+        from <include refid="table_name" />
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByRecord" parameterType="UserEntity" resultMap="UserEntityResultMap">
+        select
+        <include refid="columns" />
+        from <include refid="table_name" />
+        where
+        <if test="username != null">
+            username = #{username,jdbcType=VARCHAR}
+        </if>
+        <if test="password != null">
+            AND password = #{password,jdbcType=VARCHAR}
+        </if>
+        <if test="reallyname != null">
+            AND reallyname = #{reallyname,jdbcType=VARCHAR},
+        </if>
+        <if test="role != null">
+            AND role = #{role,jdbcType=VARCHAR},
+        </if>
+        <if test="dept != null">
+            AND dept = #{dept,jdbcType=VARCHAR},
+        </if>
+        <if test="status != null">
+            AND status = #{status,jdbcType=VARCHAR},
+        </if>
+    </select>
+
+    <!-- 根据id主键查找-->
+	<select id="selectByPrimaryKeyId" parameterType="Integer" resultMap="UserEntityResultMap">
+		select <include refid="columns" />
+		from <include refid="table_name" /> 
+        where id = #{id} 
+	</select>
+	
+	<!-- 查找所有记录 -->
+	<select id="selectAll" resultMap="UserEntityResultMap">
+		select <include refid="columns" />
+		from <include refid="table_name" />
+	</select>
+    
+    <!-- 分页查找记录 -->
+	<select id="selectPageByConditionSelective" parameterType="UserEntity" resultMap="UserEntityResultMap">
+		select * from <include refid="table_name" /> where 1=1
+		<include refid="UserEntity_conditon" />
+		<include refid="UserEntity_default_order" /> LIMIT  <![CDATA[${start}]]>,<![CDATA[ ${limit} ]]>
+	</select>
+	
+	<!-- 查找符合条件的记录 -->
+	<select id="selectByConditionSelective" parameterType="UserEntity" resultMap="UserEntityResultMap">
+		select <include refid="columns" />
+		from <include refid="table_name" /> where 1=1
+		<include refid="UserEntity_conditon" />
+	</select>
+    
+    <!-- 智能查找符合条件的记录(处理null值) -->
+	<select id="selectByConditionMultiFunctionSelective" parameterType="UserEntity" resultMap="UserEntityResultMap">
+		select <include refid="columns" />
+		from <include refid="table_name" /> where 1=1
+		<include refid="UserEntity_conditon_include_null" />
+	</select>
+    
+    <!-- 分页智能查找符合条件的记录(处理null值) -->
+	<select id="selectByConditionMultiFunctionSelectiveByPage" parameterType="UserEntity" resultMap="UserEntityResultMap">
+		select <include refid="columns" />
+		from <include refid="table_name" /> where 1=1
+		<include refid="UserEntity_conditon_include_null" />
+	</select>
+
+    <!-- 分页智能查找符合模糊条件的记录(处理null值) -->
+    <select id="selectFuzzyByConditionMultiFunctionSelectiveByPage" parameterType="UserEntity" resultMap="UserEntityResultMap">
+        select <include refid="columns" />
+        from <include refid="table_name" /> where 1=1
+        <include refid="UserEntity_conditon_include_null_fuzzy" />
+    </select>
+
+	<!-- 满足条件的记录数 -->
+	<select id="count" parameterType="UserEntity" resultType="int">
+		select count(*) from <include refid="table_name" /> where 1=1
+		<include refid="UserEntity_conditon" />
+	</select>
+	
+
+	
+	<!-- 按主键动态更新记录 -->
+	<update id="updateByPrimaryKeySelective" parameterType="UserEntity">
+		update <include refid="table_name" />
+		set 
+		<include refid="UserEntity_update_conditon_selective" />
+               where id = #{id} 
+	</update>
+    
+    <!-- 按主键智能动态更新记录（处理null值） -->
+	<update id="updateByPrimaryKeyMultiFunctionSelective" parameterType="UserEntity">
+		update <include refid="table_name" />
+		set 
+		<include refid="UserEntity_update_conditon_selective_include_null" />
+               where id = #{id} 
+	</update>
+    
+    <!-- 按主键全部更新记录 -->
+	<update id="updateByPrimaryKey" parameterType="UserEntity">
+		update <include refid="table_name" />
+		set 
+		<include refid="UserEntity_update_conditon" />
+               where id = #{id} 
+	</update>
+	
+	<!-- 按主键删除记录 -->
+	<delete id="deleteByPrimaryKey" parameterType="int">
+		delete from <include refid="table_name" />
+               where id = #{id} 
+	</delete>
+	
+    <!--插入数据-->
+	<insert id="insert" parameterType="UserEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into <include refid="table_name" /> ( <include refid="columns" /> )
+		values(
+            #{id},
+            #{username},
+            #{password},
+            #{reallyname},
+            #{email},
+            #{role},
+            #{roleCn},
+            #{dept},
+            #{tel},
+            #{phone},
+            #{verifyInfo},
+            #{lastLoginDate},
+            #{lastLoginIp},
+            #{status},
+            #{createTime},
+            #{modifierId},
+            #{modifiedTime},
+            #{creatorId}) 
+	</insert>
+    
+	<!-- 动态插入数据 -->
+    <insert id="insertSelective" parameterType="UserEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into <include refid="table_name" /> 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null"> id,</if>
+            <if test="username != null and username != '' "> username,</if>
+            <if test="password != null and password != '' "> password,</if>
+            <if test="reallyname != null and reallyname != '' "> reallyname,</if>
+            <if test="email != null and email != '' "> email,</if>
+            <if test="role != null"> role,</if>
+            <if test="roleCn != null and roleCn != '' "> rolecn,</if>
+            <if test="dept != null and dept != '' "> dept,</if>
+            <if test="tel != null and tel != '' "> tel,</if>
+            <if test="phone != null and phone != '' "> phone,</if>
+            <if test="verifyInfo != null and verifyInfo != '' "> verify_info,</if>
+            <if test="lastLoginDate != null"> last_login_date,</if>
+            <if test="lastLoginIp != null and lastLoginIp != '' "> last_login_ip,</if>
+            <if test="status != null"> status,</if>
+            <if test="createTime != null"> create_time,</if>
+            <if test="modifierId != null"> modifier_id,</if>
+            <if test="modifiedTime != null"> modified_time,</if>
+            <if test="creatorId != null"> creator_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="username != null and username != '' "> #{username},</if>
+            <if test="password != null and password != '' "> #{password},</if>
+            <if test="reallyname != null and reallyname != '' "> #{reallyname},</if>
+            <if test="email != null and email != '' "> #{email},</if>
+            <if test="role != null"> #{role},</if>
+            <if test="roleCn != null and roleCn != '' "> #{roleCn},</if>
+            <if test="dept != null and dept != '' "> #{dept},</if>
+            <if test="tel != null and tel != '' "> #{tel},</if>
+            <if test="phone != null and phone != '' "> #{phone},</if>
+            <if test="verifyInfo != null and verifyInfo != '' "> #{verifyInfo},</if>
+            <if test="lastLoginDate != null"> #{lastLoginDate},</if>
+            <if test="lastLoginIp != null and lastLoginIp != '' "> #{lastLoginIp},</if>
+            <if test="status != null"> #{status},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="modifierId != null"> #{modifierId},</if>
+            <if test="modifiedTime != null"> #{modifiedTime},</if>
+            <if test="creatorId != null"> #{creatorId},</if>
+		</trim>	
+	</insert>
+</mapper>

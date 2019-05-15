@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atf.mappers.HttpResponseDAO">
+
+    <resultMap id="HttpResponseResultMap" type="HttpResponseEntity">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="status_code" jdbcType="INTEGER" property="statusCode" />
+        <result column="body" jdbcType="VARCHAR" property="body" />
+        <result column="body_type" jdbcType="VARCHAR" property="type" />
+        <result column="headers" jdbcType="VARCHAR" property="headers" />
+        <result column="connection_options_id" jdbcType="INTEGER" property="connectionOptionsId" />
+        <result column="reason_phrase" jdbcType="VARCHAR" property="reasonPhrase" />
+        <result column="delay_time" jdbcType="BIGINT" property="delayTime" />
+        <result column="cookies" jdbcType="BIGINT" property="cookies" />
+    </resultMap>
+
+    <sql id="column">id, status_code, body, body_type, headers, connection_options_id, reason_phrase,delay_time,cookies</sql>
+    <sql id="table_name"> mock_response </sql>
+    <sql id="column_values">
+        #{id,jdbcType=INTEGER}
+        ,#{statusCode,jdbcType=INTEGER}
+        ,#{body,jdbcType=VARCHAR}
+        ,#{type,jdbcType=VARCHAR}
+        ,#{headers,jdbcType=VARCHAR}
+        ,#{connectionOptionsId,jdbcType=INTEGER}
+        ,#{reasonPhrase,jdbcType=VARCHAR}
+        ,#{delayTime,jdbcType=BIGINT}
+        ,#{cookies,jdbcType=VARCHAR}
+    </sql>
+
+    <select id="selectByPrimaryKeyId" parameterType="Integer" resultMap="HttpResponseResultMap">
+        select <include refid="column" /> from <include refid="table_name" /> where id = #{id}
+    </select>
+
+    <!--查找全部记录-->
+    <select id="selectAll"  resultMap="HttpResponseResultMap">
+        select
+        <include refid="column" />
+        from <include refid="table_name" />
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="HttpResponseEntity">
+        delete from <include refid="table_name" />
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteByPrimaryKeyId" parameterType="Integer">
+        delete from <include refid="table_name" />
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="HttpResponseEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table_name" /> (<include refid="column" />)
+        values ( <include refid="column_values" />)
+    </insert>
+
+    <insert id="insertSelective" parameterType="HttpResponseEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table_name" />
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="statusCode != null">
+                status_code,
+            </if>
+            <if test="body != null">
+                body,
+            </if>
+            <if test="type != null">
+                body_type,
+            </if>
+            <if test="headers != null">
+                headers,
+            </if>
+            <if test="connectionOptionsId != null">
+                connection_options_id,
+            </if>
+            <if test="reasonPhrase != null">
+                reason_phrase,
+            </if>
+            <if test="delayTime != null">
+                delay_time,
+            </if>
+            <if test="cookies != null">
+                cookies,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="statusCode != null">
+                #{statusCode,jdbcType=INTEGER},
+            </if>
+            <if test="body != null">
+                #{body,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="headers != null">
+                #{headers,jdbcType=VARCHAR},
+            </if>
+            <if test="connectionOptionsId != null">
+                #{connectionOptionsId,jdbcType=INTEGER},
+            </if>
+            <if test="reasonPhrase != null">
+                #{reasonPhrase,jdbcType=VARCHAR},
+            </if>
+            <if test="delayTime != null">
+                #{delayTime,jdbcType=BIGINT},
+            </if>
+            <if test="cookies != null">
+                #{cookies,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="HttpResponseEntity">
+        update <include refid="table_name" />
+        <set>
+            <if test="id != null and id != INT_SPECIAL_NULL">id = #{id}</if>
+            <if test="statusCode != null">
+                ,status_code = #{statusCode,jdbcType=INTEGER}
+            </if>
+            <if test="body != null">
+                ,body = #{body,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null">
+                ,body_type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="headers != null">
+                ,headers = #{headers,jdbcType=VARCHAR}
+            </if>
+            <if test="connectionOptionsId != null">
+                ,connection_options_id = #{connectionOptionsId,jdbcType=INTEGER}
+            </if>
+            <if test="reasonPhrase != null">
+                ,reason_phrase = #{reasonPhrase,jdbcType=VARCHAR}
+            </if>
+            <if test="delayTime != null">
+                ,delay_time = #{delayTime,jdbcType=BIGINT}
+            </if>
+            <if test="cookies != null">
+                ,cookies = #{cookies,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="HttpResponseEntity">
+        update <include refid="table_name" />
+        set status_code = #{statusCode,jdbcType=INTEGER},
+        body = #{body,jdbcType=VARCHAR},
+        body_type = #{type,jdbcType=VARCHAR},
+        headers = #{headers,jdbcType=VARCHAR},
+        connection_options_id = #{connectionOptionsId,jdbcType=INTEGER},
+        reason_phrase = #{reasonPhrase,jdbcType=VARCHAR},
+        delay_time = #{delayTime,jdbcType=BIGINT},
+        cookies = #{cookies,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

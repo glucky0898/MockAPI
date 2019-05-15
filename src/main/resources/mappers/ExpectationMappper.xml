@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atf.mappers.ExpectationDAO">
+
+    <resultMap id="ExpectationResultMap" type="com.atf.entity.ExpectationEntity">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="http_request_id" jdbcType="INTEGER" property="httpRequestId" />
+        <result column="http_response_id" jdbcType="INTEGER" property="httpResponseId" />
+        <result column="http_forward_id" jdbcType="INTEGER" property="httpForwardId" />
+        <result column="expectation_name" jdbcType="VARCHAR" property="expectationName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="type_name" jdbcType="VARCHAR" property="type" />
+    </resultMap>
+
+    <sql id="columns">id, http_request_id, http_response_id,http_forward_id,expectation_name,create_time,modified_time,creator,type_name</sql>
+    <sql id="table_name">expectation</sql>
+    <sql id="column_values">
+        #{id,jdbcType=INTEGER}
+        ,#{httpRequestId,jdbcType=INTEGER}
+        ,#{httpResponseId,jdbcType=INTEGER}
+        ,#{httpForwardId,jdbcType=INTEGER}
+        ,#{expectationName}
+        ,#{createTime}
+        ,#{modifiedTime}
+        ,#{creator}
+        ,#{type}
+    </sql>
+
+    <sql id="ExpectationEntity_update_condition_selective">
+        <if test="id != null and id != INT_SPECIAL_NULL">id = #{id}</if>
+        <if test="httpRequestId != null">,http_request_id = #{httpRequestId}</if>
+        <if test="httpResponseId != null">,http_response_id = #{httpResponseId}</if>
+        <if test="httpResponseId != null">,http_forward_id = #{httpForwardId}</if>
+        <if test="expectationName != null">,expectation_name = #{expectationName}</if>
+        <if test="createTime != null">,create_time = #{createTime}</if>
+        <if test="modifiedTime != null">,modified_time = #{modifiedTime}</if>
+        <if test="creator != null">,creator = #{creator}</if>
+        <if test="creator != null">,type_name = #{type}</if>
+    </sql>
+    <!--根据实体的id属性查找-->
+    <select id="selectByPrimaryKey" parameterType="HttpRequestEntity" resultMap="ExpectationResultMap">
+        select
+        <include refid="columns" />
+        from <include refid="table_name" />
+        where id = #{id}
+    </select>
+    <!--根据id主键查找-->
+    <select id="selectByPrimaryKeyId" parameterType="Integer" resultMap="ExpectationResultMap">
+        select
+        <include refid="columns" />
+        from <include refid="table_name" />
+        where id = #{id}
+    </select>
+
+    <!--查找全部记录-->
+    <select id="selectAll"  resultMap="ExpectationResultMap">
+        select
+        <include refid="columns" />
+        from <include refid="table_name" />
+    </select>
+
+    <insert id="insert" parameterType="ExpectationEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table_name" /> (<include refid="columns" />)
+        values (<include refid="column_values" />)
+    </insert>
+    
+    <insert id="insertSelective" parameterType="ExpectationEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table_name" />
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="httpRequestId != null">
+                http_request_id,
+            </if>
+            <if test="httpResponseId != null">
+                http_response_id,
+            </if>
+            <if test="httpForwardId != null">
+                http_forward_id,
+            </if>
+            <if test="expectationName != null">
+                expectation_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifiedTime != null">
+                modified_time,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="type != null">
+                type_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="httpRequestId != null">
+                #{httpRequestId,jdbcType=INTEGER},
+            </if>
+            <if test="httpResponseId != null">
+                #{httpResponseId,jdbcType=INTEGER},
+            </if>
+            <if test="httpForwardId != null">
+                #{httpForwardId,jdbcType=INTEGER},
+            </if>
+            <if test="expectationName != null">
+                #{expectationName},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="modifiedTime != null">
+                #{modifiedTime},
+            </if>
+            <if test="creator != null">
+                #{creator},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据id逐渐删除-->
+    <delete id="deleteByPrimaryKey" parameterType="ExpectationEntity">
+        delete from <include refid="table_name" />
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByPrimaryKeyId" parameterType="Integer">
+        delete from <include refid="table_name" />
+        where id = #{id}
+    </delete>
+
+    <!--更新数据-->
+    <update id="updateByPrimaryKeySelective" parameterType="ExpectationEntity">
+        update <include refid="table_name" />
+        set
+        <include refid="ExpectationEntity_update_condition_selective" />
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <insert id="insertBaseInfo"  useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table_name" /> (creator,expectation_name,type_name)
+        values (#{creator},#{expectationName},#{type})
+    </insert>
+
+</mapper>

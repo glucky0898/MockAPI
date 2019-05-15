@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atf.mappers.ConnectionOptionsDAO">
+
+    <resultMap id="ConnectionOptionsResultMap" type="ConnectionOptionsEntity">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="suppress_content_length_header" jdbcType="BIT" property="suppressContentLengthHeader" />
+        <result column="content_length_header_override" jdbcType="INTEGER" property="contentLengthHeaderOverride" />
+        <result column="suppress_connection_header" jdbcType="BIT" property="suppressConnectionHeader" />
+        <result column="keep_alive_override" jdbcType="BIT" property="keepAliveOverride" />
+        <result column="close_socket" jdbcType="BIT" property="closeSocket" />
+    </resultMap>
+
+    <sql id="column">
+        id, suppress_content_length_header, content_length_header_override, suppress_connection_header,keep_alive_override,          close_socket
+    </sql>
+
+    <sql id="table_name"> connectionoptions </sql>
+
+    <sql id="ConnectionOptionsEntity_values">
+        #{id,jdbcType=INTEGER}
+        , #{suppressContentLengthHeader,jdbcType=BIT}
+        , #{contentLengthHeaderOverride,jdbcType=INTEGER}
+        , #{suppressConnectionHeader,jdbcType=BIT}
+        , #{keepAliveOverride,jdbcType=BIT}
+        , #{closeSocket,jdbcType=BIT}
+    </sql>
+
+    <select id="selectByPrimaryKeyId" parameterType="java.lang.Integer" resultMap="ConnectionOptionsResultMap">
+        select <include refid="column" />
+        from <include refid="table_name" />
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="ConnectionOptionsEntity">
+    delete
+    from <include refid="table_name" />
+    where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteByPrimaryKeyId" parameterType="Integer">
+        delete from <include refid="table_name" />
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="ConnectionOptionsEntity" useGeneratedKeys="true" keyProperty="id">
+    insert into <include refid="table_name" /> (<include refid="column" />)
+    values (<include refid="ConnectionOptionsEntity_values" />)
+  </insert>
+
+    <insert id="insertSelective" parameterType="ConnectionOptionsEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="table_name" />
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="suppressContentLengthHeader != null">
+                suppress_content_length_header,
+            </if>
+            <if test="contentLengthHeaderOverride != null">
+                content_length_header_override,
+            </if>
+            <if test="suppressConnectionHeader != null">
+                suppress_connection_header,
+            </if>
+            <if test="keepAliveOverride != null">
+                keep_alive_override,
+            </if>
+            <if test="closeSocket != null">
+                close_socket,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="suppressContentLengthHeader != null">
+                #{suppressContentLengthHeader,jdbcType=BIT},
+            </if>
+            <if test="contentLengthHeaderOverride != null">
+                #{contentLengthHeaderOverride,jdbcType=INTEGER},
+            </if>
+            <if test="suppressConnectionHeader != null">
+                #{suppressConnectionHeader,jdbcType=BIT},
+            </if>
+            <if test="keepAliveOverride != null">
+                #{keepAliveOverride,jdbcType=BIT},
+            </if>
+            <if test="closeSocket != null">
+                #{closeSocket,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="ConnectionOptionsEntity">
+        update <include refid="table_name" />
+        <set>
+            <if test="id != null and id != INT_SPECIAL_NULL">id = #{id}</if>
+            <if test="suppressContentLengthHeader != null">
+                ,suppress_content_length_header = #{suppressContentLengthHeader,jdbcType=BIT}
+            </if>
+            <if test="contentLengthHeaderOverride != null">
+                ,content_length_header_override = #{contentLengthHeaderOverride,jdbcType=INTEGER}
+            </if>
+            <if test="suppressConnectionHeader != null">
+                ,suppress_connection_header = #{suppressConnectionHeader,jdbcType=BIT}
+            </if>
+            <if test="keepAliveOverride != null">
+                ,keep_alive_override = #{keepAliveOverride,jdbcType=BIT}
+            </if>
+            <if test="closeSocket != null">
+                ,close_socket = #{closeSocket,jdbcType=BIT}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="ConnectionOptionsEntity">
+    update <include refid="table_name" />
+    set suppress_content_length_header = #{suppressContentLengthHeader,jdbcType=BIT},
+      content_length_header_override = #{contentLengthHeaderOverride,jdbcType=INTEGER},
+      suppress_connection_header = #{suppressConnectionHeader,jdbcType=BIT},
+      keep_alive_override = #{keepAliveOverride,jdbcType=BIT},
+      close_socket = #{closeSocket,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
